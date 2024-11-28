@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expenses</title>
+  <link rel="stylesheet" href="output.css">
+  <link rel="icon" type="image/x-icon" href="money.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+    integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body class="bg-[#E6EDF3] font-IPST">
+
+  <div class="container mx-auto px-4 sm:p-0">
+    <div class="flex flex-col justify-center items-center min-h-screen py-4">
+
+      <!-- Toggle สำหรับเปลี่ยน form -->
+      <div class="mb-8 w-full max-w-sm flex flex-col mx-auto text-center">
+        <div class="w-full bg-white h-auto m-auto shadow flex flex-col p-8 pt-6 rounded-lg">
+
+          <div class="relative w-full mt-4 rounded-md border h-12 p-1 bg-gray-200">
+            <div class="relative w-full h-full flex items-center">
+              <!-- รายจ่าย -->
+              <div id="expensesTab" class="w-full flex justify-center text-gray-400 cursor-pointer">
+                <button>รายจ่าย</button>
+              </div>
+              <!-- รายรับ -->
+              <div id="incomeTab" class="w-full flex justify-center text-gray-400 cursor-pointer">
+                <button>รายรับ</button>
+              </div>
+            </div>
+
+            <!-- Indicator -->
+            <span id="indicator"
+              class="bg-white shadow text-sm flex items-center justify-center w-1/2 rounded h-[38px] transition-all duration-150 ease-linear top-[4px] absolute left-1/2 -ml-1 text-blue-500">
+              รายจ่าย
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div id="expenses-form" class="text-center p-6 bg-white rounded-lg shadow-xl space-y-6 w-full max-w-lg">
+        <h1 class="text-3xl font-semibold text-gray-700">รายจ่าย</h1>
+        <div class="space-y-6 mt-6">
+          <div>
+            <input type="text" name="product" id="product" placeholder="ชื่อสินค้า" aria-label="ชื่อสินค้า"
+              class="text-black w-full p-3 rounded-lg border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              required>
+
+            <div id="product-alert"
+              class="hidden mt-2 font-semibold py-3 px-4 bg-red-100 text-red-800 rounded-lg shadow-lg flex items-center justify-between space-x-3">
+              <span class="text-base">กรุณาใส่ชื่อสินค้า</span>
+              <i class="fa-solid fa-xmark text-xl cursor-pointer"></i>
+            </div>
+          </div>
+
+          <div>
+            <input type="number" name="price" id="price" placeholder="ราคา" min="0" aria-label="ราคา"
+              class="text-black w-full p-3 rounded-lg border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              required>
+
+            <div id="price-alert"
+              class="hidden mt-2 font-semibold py-3 px-4 bg-red-100 text-red-800 rounded-lg shadow-lg flex items-center justify-between space-x-3">
+              <span class="text-base">กรุณาใส่ราคาสินค้า</span>
+              <i class="fa-solid fa-xmark text-xl cursor-pointer"></i>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <textarea name="note" id="note" placeholder="หมายเหตุ (ไม่บังคับ)" aria-label="หมายเหตุ"
+              class="text-black w-full p-3 rounded-lg border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"></textarea>
+          </div>
+
+          <div class="flex gap-4">
+            <button type="submit" id="add"
+              class="w-full py-3 bg-green-500 text-white rounded-lg text-xl font-medium hover:bg-green-600 active:bg-green-700 transition">
+              เพิ่ม
+            </button>
+
+            <button type="submit" id="submit"
+              class="w-full py-3 bg-blue-500 disabled:bg-gray-400 text-white rounded-lg text-xl font-medium hover:bg-blue-600 active:bg-blue-700 disabled:cursor-not-allowed transition"
+              disabled>
+              ยืนยัน
+            </button>
+          </div>
+        </div>
+
+        <div id="info-container" class="mt-6 text-left text-gray-800">
+          <div class="space-y-4">
+            <!-- From js -->
+          </div>
+        </div>
+      </div>
+
+      <div id="income-form" class="text-center p-6 bg-white rounded-lg shadow-xl space-y-6 w-full max-w-lg">
+        <h1 class="text-3xl font-semibold text-gray-700">รายรับ</h1>
+        <div class="space-y-6">
+          <div>
+            <input type="text" name="itemName" id="itemName" placeholder="ชื่อรายการ" aria-label="ชื่อรายการ"
+              class="text-black w-full p-3 rounded-lg border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              required>
+            <div id="receiver-alert"
+              class="hidden mt-2 font-semibold py-3 px-4 bg-red-100 text-red-800 rounded-lg shadow-lg flex items-center justify-between space-x-3">
+              <span class="text-base">กรุณาใส่ชื่อรายการ</span>
+              <i class="fa-solid fa-xmark text-xl cursor-pointer"></i>
+            </div>
+          </div>
+          <div>
+            <input type="number" name="amount" id="amount" placeholder="จำนวนเงิน" min="0" aria-label="จำนวนเงิน"
+              class="text-black w-full p-3 rounded-lg border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              required>
+            <div id="amount-alert"
+              class="hidden mt-2 font-semibold py-3 px-4 bg-red-100 text-red-800 rounded-lg shadow-lg flex items-center justify-between space-x-3">
+              <span class="text-base">กรุณาใส่จำนวนเงิน</span>
+              <i class="fa-solid fa-xmark text-xl cursor-pointer"></i>
+            </div>
+          </div>
+          <div class="mt-4">
+            <textarea name="description" id="description" placeholder="หมายเหตุ (ไม่บังคับ)" aria-label="รายละเอียด"
+              class="text-black w-full p-3 rounded-lg border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"></textarea>
+          </div>
+          <div class="flex gap-4">
+            <button type="button" id="submit-receive"
+              class="w-full py-3 bg-green-500 text-white rounded-lg text-xl font-medium hover:bg-green-600 active:bg-green-700 transition">
+              ยืนยันรับเงิน
+            </button>
+          </div>
+        </div>
+        <div class="mt-6 text-left text-gray-800">
+          <!-- NOTHING -->
+        </div>
+      </div>
+
+      <!-- Edit popup -->
+      <div id="edit-popup" class="hidden fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50 ">
+        <div class="flex justify-center items-center min-h-screen py-4 w-full">
+          <div class="text-center p-6 bg-white rounded-lg shadow-xl space-y-6 w-full max-w-md">
+            <h1 class="text-3xl font-semibold text-gray-700">แก้ไขสินค้า</h1>
+            <div class="space-y-6 mt-6">
+              <div>
+                <input type="text" id="edit-product" placeholder="ชื่อสินค้า" aria-label="ชื่อสินค้า"
+                  class="text-black w-full p-3 rounded-lg border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  required>
+                <div id="edit-product-alert"
+                  class="hidden mt-2 font-semibold py-3 px-4 bg-red-100 text-red-800 rounded-lg shadow-lg flex items-center justify-between space-x-3">
+                  <span class="text-base">กรุณาใส่ชื่อสินค้า</span>
+                  <i class="fa-solid fa-xmark text-xl cursor-pointer"></i>
+                </div>
+              </div>
+              <div>
+                <input type="number" id="edit-price" placeholder="ราคา" min="0" aria-label="ราคา"
+                  class="text-black w-full p-3 rounded-lg border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  required>
+                <div id="edit-price-alert"
+                  class="hidden mt-2 font-semibold py-3 px-4 bg-red-100 text-red-800 rounded-lg shadow-lg flex items-center justify-between space-x-3">
+                  <span class="text-base">กรุณาใส่ราคาสินค้า</span>
+                  <i class="fa-solid fa-xmark text-xl cursor-pointer"></i>
+                </div>
+              </div>
+              <div class="mt-4">
+                <textarea id="edit-note" placeholder="หมายเหตุ (ไม่บังคับ)" aria-label="หมายเหตุ"
+                  class="text-black w-full p-3 rounded-lg border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"></textarea>
+              </div>
+              <div class="flex gap-4">
+                <button id="cancel-edit"
+                  class="w-full py-3 bg-red-400 text-white rounded-lg text-xl font-medium hover:bg-red-500 active:bg-red-600 transition">
+                  ยกเลิก
+                </button>
+
+                <button id="save-edit"
+                  class="w-full py-3 bg-blue-500 text-white rounded-lg text-xl font-medium hover:bg-blue-600 active:bg-blue-700 transition">
+                  บันทึก
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Toast container -->
+    <div id="toast-container" class="fixed top-0 right-0 p-6 space-y-4 z-50">
+      <!-- Toast message (dynamically added) -->
+      <!-- From js -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
